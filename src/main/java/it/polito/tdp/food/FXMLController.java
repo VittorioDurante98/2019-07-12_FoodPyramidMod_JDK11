@@ -3,6 +3,7 @@ package it.polito.tdp.food;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.food.model.Food;
 import it.polito.tdp.food.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -39,19 +40,42 @@ public class FXMLController {
     private Button btnSimula;
 
     @FXML
-    private ComboBox<?> boxFood;
+    private ComboBox<Food> boxFood;
 
     @FXML
     private TextArea txtResult;
 
     @FXML
     void doCalorie(ActionEvent event) {
-
+    	txtResult.clear();
+    	txtResult.appendText(model.calMax(boxFood.getValue()));
     }
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
-
+    	txtResult.clear();
+    	int porzioni=0;
+    	/*try {
+			porzioni = Integer.parseInt(txtPorzioni.getText().toString());
+		} catch ( NumberFormatException e) {
+			txtResult.appendText("Inserisci un numero!");
+		}
+    	model.creaGrafo(porzioni);
+    	this.boxFood.getItems().addAll(model.getVertici());*/
+    	try {
+			porzioni = Integer.parseInt(txtPorzioni.getText());
+		} catch (NumberFormatException e) {
+			txtResult.appendText("Digitare un numero intero!\n");
+			return;
+		}
+    	model.setCibi(porzioni);
+    	this.boxFood.getItems().clear();
+    	this.boxFood.getItems().addAll(model.getCibi());
+    	model.creaGrafo(porzioni);
+    	txtResult.appendText("Grafo creato!\n");
+    	txtResult.appendText("Vertici: "+model.getCibi().size()+"\n");
+    	txtResult.appendText("Archi: "+model.getArchi().size()+"\n");
+    	
     }
 
     @FXML
